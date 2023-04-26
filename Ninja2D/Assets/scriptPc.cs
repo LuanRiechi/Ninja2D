@@ -29,7 +29,6 @@ public class scriptPc : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && chao)
         {
             rbd.AddForce(new Vector2(0,pulo));
-            anim.SetBool("pulando", true);
         }
 
         if (direita && x < 0 || !direita && x > 0)
@@ -70,6 +69,7 @@ public class scriptPc : MonoBehaviour
         else
         {
             chao = false;
+            anim.SetBool("pulando", true);
             transform.parent = null;
         }
 
