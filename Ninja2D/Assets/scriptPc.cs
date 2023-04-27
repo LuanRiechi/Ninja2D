@@ -68,11 +68,25 @@ public class scriptPc : MonoBehaviour
         }
         else
         {
+
             chao = false;
             anim.SetBool("pulando", true);
             transform.parent = null;
-        }
+        }  
 
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "npc")
+        {
+            anim.SetBool("Morto", true);
+        }
+    }
+
+    public void OnCollisionExit2D(Collision2D collision)
+    {
+        anim.SetBool("Morto", false);
     }
 
 }

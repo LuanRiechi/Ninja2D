@@ -6,7 +6,7 @@ public class scriptNpc : MonoBehaviour
 {
     private Rigidbody2D rbd;
     public GameObject frenteNpc;
-    public float velocidade = 5;
+    public float velocidade = 4;
     public LayerMask mascara;
 
     // Start is called before the first frame update
@@ -21,22 +21,29 @@ public class scriptNpc : MonoBehaviour
         rbd.velocity = new Vector2(velocidade, 0);
 
         RaycastHit2D hit;
-        hit = Physics2D.Raycast(frenteNpc.transform.position, frenteNpc.transform.right, 0.2f, mascara);
+        hit = Physics2D.Raycast(frenteNpc.transform.position, frenteNpc.transform.right, 0.1f, mascara);
 
         if(hit.collider != null)
         {
             if (hit.collider.gameObject.layer == 6)
             {
-                velocidade = velocidade * -1;
-                rbd.velocity = new Vector2(velocidade, 0);
-                transform.Rotate(new Vector2(0, 180));
+                rotacao();
             }
             if (hit.collider.gameObject.layer == 8)
             {
-                Destroy(hit.collider.gameObject);
+                Destroy(hit.collider.gameObject, 0.5f);
+
             }
             
         }
         
+    }
+
+private void rotacao()
+    {
+        velocidade = velocidade * -1;
+        rbd.velocity = new Vector2(velocidade, 0);
+        transform.Rotate(new Vector2(0, 180));
+
     }
 }
