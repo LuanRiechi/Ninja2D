@@ -14,9 +14,6 @@ public class scriptPlataforma : MonoBehaviour
     void Start()
     {
         posInicial = transform.position;
-        deslocamento = 1;
-        altura = 1;
-        largura = 1;
     }
 
     // Update is called once per frame

@@ -13,6 +13,8 @@ public class scriptPc : MonoBehaviour
     public GameObject pe;
     public LayerMask mascara;
     public static bool morrendo;
+    private float x;
+    private RaycastHit2D hit;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,28 +31,38 @@ public class scriptPc : MonoBehaviour
 
         puloPc();
 
-        colisorPc();
-    
-        AnimMorrendo();
+
+        AnimacaoPC();
+
+        hit = Physics2D.Raycast(pe.transform.position,
+                        -pe.transform.up,
+                        0.1f,
+                        mascara);
+
+        colisorPc(hit);
+
 
 
 
     }
-    public void AnimMorrendo()
+    public void AnimacaoPC()
     {
+        anim.SetFloat("velocidadeX", Mathf.Abs(x));
+
+        anim.SetFloat("velocidadeY", rbd.velocity.y);
+
+
+        anim.SetBool("chao", chao);
+
         if (morrendo)
         {
-            anim.SetBool("Morto", true);
-        }
-        else
-        {
-            anim.SetBool("Morto", false);
+            anim.SetTrigger("morrendo");
         }
     }
 
     public void movimentoPc()
     {
-        float x = Input.GetAxis("Horizontal");
+        x = Input.GetAxis("Horizontal");
         rbd.velocity = new Vector2(x * velocidade, rbd.velocity.y);
 
         if (direita && x < 0 || !direita && x > 0)
@@ -59,14 +71,6 @@ public class scriptPc : MonoBehaviour
             direita = !direita;
         }
 
-        if (x == 0)
-        {
-            anim.SetBool("correndo", false);
-        }
-        else
-        {
-            anim.SetBool("correndo", true);
-        }
     }
 
     public void puloPc()
@@ -77,40 +81,31 @@ public class scriptPc : MonoBehaviour
         }
     }
 
-    public void colisorPc()
+    public void colisorPc(RaycastHit2D hit)
     {
-        RaycastHit2D hit;
-        hit = Physics2D.Raycast(pe.transform.position,
-                                -pe.transform.up,
-                                0.1f,
-                                mascara);
 
         if (hit.collider != null)
         {
             if (hit.collider.gameObject.layer == 6)
             {
                 chao = true;
-                anim.SetBool("pulando", false);
                 transform.parent = hit.collider.transform;
             }
-            if (hit.collider.gameObject.layer == 7)
+            else if (hit.collider.gameObject.layer == 7)
             {
 
-                rbd.AddForce(new Vector2(0, 50));
+                rbd.AddForce(new Vector2(0, pulo*1.1f));
                 scriptNpc.npcMorrendo = true;
+                hit.collider.GetComponent<BoxCollider2D>().enabled = false;
+                hit.collider.GetComponent<CircleCollider2D>().enabled = false;
                 Destroy(hit.collider.gameObject, 0.6f);
             }
         }
         else
         {
-
             chao = false;
-            anim.SetBool("pulando", true);
             transform.parent = null;
         }
     }
-
-
-
 }
 

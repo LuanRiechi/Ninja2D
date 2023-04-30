@@ -9,14 +9,13 @@ public class scriptNpc : MonoBehaviour
     public float velocidade = 4;
     public LayerMask mascara;
     private Animator anim;
-    public static bool npcMorrendo;
+    public static bool npcMorrendo = false;
 
     // Start is called before the first frame update
     void Start()
     {
         rbd = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        npcMorrendo = false;
     }
 
     // Update is called once per frame
@@ -32,17 +31,22 @@ public class scriptNpc : MonoBehaviour
     {
         if (npcMorrendo)
         {
-            anim.SetBool("morrendo", true);
+            anim.SetTrigger("morrendo");
+            anim.SetBool("vivo", false);
             rbd.velocity = new Vector2(0, 0);
+            Invoke("cancelMorte", 1f);
         }
         else
         {
-            anim.SetBool("morrendo", false);
             rbd.velocity = new Vector2(velocidade, 0);
         }
     }
 
-
+    private void cancelMorte()
+    {
+        npcMorrendo = false;
+        anim.SetBool("vivo", true);
+    }
     private void animacaoAtacando()
     {
         anim.SetBool("atacando", false);
