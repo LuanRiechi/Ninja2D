@@ -7,7 +7,7 @@ public class scriptPc : MonoBehaviour
     private Animator anim;
     private Rigidbody2D rbd;
     public float velocidade = 5;
-    public float pulo = 350;
+    public float pulo = 470;
     private bool chao = false;
     private bool direita = true;
     public GameObject pe;
@@ -40,7 +40,6 @@ public class scriptPc : MonoBehaviour
                         mascara);
 
         colisorPc(hit);
-
 
 
 
@@ -79,6 +78,18 @@ public class scriptPc : MonoBehaviour
         {
             rbd.AddForce(new Vector2(0, pulo));
         }
+
+        if (Input.GetKey(KeyCode.Space) && !chao && rbd.velocity.y < -1)
+        {
+
+             rbd.gravityScale = 0.5f;
+             anim.SetBool("planando", true);
+            
+        } else
+        {
+            rbd.gravityScale = 3;
+            anim.SetBool("planando", false);
+        }
     }
 
     public void colisorPc(RaycastHit2D hit)
@@ -93,13 +104,26 @@ public class scriptPc : MonoBehaviour
             }
             else if (hit.collider.gameObject.layer == 7)
             {
+                if (hit.collider.gameObject.tag == "npc")
+                {
+                    rbd.AddForce(new Vector2(0, pulo), ForceMode2D.Force);
+                    scriptNpc.npcMorrendo = true;
+                    hit.collider.GetComponent<BoxCollider2D>().enabled = false;
+                    hit.collider.GetComponent<CircleCollider2D>().enabled = false;
+                    Transform filhonpc1 = hit.collider.transform.GetChild(0);
+                    Destroy(filhonpc1.gameObject);
+                    Destroy(hit.collider.gameObject, 1);
 
-                rbd.AddForce(new Vector2(0, pulo*1.1f));
-                scriptNpc.npcMorrendo = true;
-                hit.collider.GetComponent<BoxCollider2D>().enabled = false;
-                hit.collider.GetComponent<CircleCollider2D>().enabled = false;
-                Destroy(hit.collider.gameObject, 0.6f);
+                } else if (hit.collider.gameObject.tag == "npc2")
+                {
+                    rbd.AddForce(new Vector2(0, pulo), ForceMode2D.Force);
+                    scriptNpc2.npc2Morrendo = true;
+                    hit.collider.GetComponent<BoxCollider2D>().enabled = false;
+                    hit.collider.GetComponent<CircleCollider2D>().enabled = false;
+                    Destroy(hit.collider.gameObject, 1);
+                }
             }
+
         }
         else
         {
