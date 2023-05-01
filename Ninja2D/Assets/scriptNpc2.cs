@@ -6,7 +6,7 @@ public class scriptNpc2 : MonoBehaviour
 {
     private Rigidbody2D rbd;
     public GameObject frenteNpc;
-    public float velocidade = 6;
+    public float velocidade = 8;
     public LayerMask mascara;
     private Animator anim;
     public static bool npc2Morrendo = false;
