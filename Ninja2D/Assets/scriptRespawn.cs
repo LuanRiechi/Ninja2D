@@ -10,7 +10,10 @@ public class scriptRespawn : MonoBehaviour
     {
         if (collision.gameObject.layer == 8)
         {
-            npc2.SetActive(true);
+            if(npc2 != null)
+            {
+                npc2.SetActive(true);
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ public class scriptControladorJogo : MonoBehaviour
 {
     public GameObject pc;
     public GameObject telaGameOver;
+    public GameObject telaFinalFase;
 
     // Update is called once per frame
     void Update()
@@ -25,5 +26,13 @@ public class scriptControladorJogo : MonoBehaviour
     public void menuIniciar()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == 8)
+        {
+            telaFinalFase.SetActive(true);
+        }
     }
 }

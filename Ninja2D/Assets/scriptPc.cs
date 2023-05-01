@@ -41,8 +41,6 @@ public class scriptPc : MonoBehaviour
 
         colisorPc(hit);
 
-
-
     }
     public void AnimacaoPC()
     {
@@ -120,6 +118,8 @@ public class scriptPc : MonoBehaviour
                     scriptNpc2.npc2Morrendo = true;
                     hit.collider.GetComponent<BoxCollider2D>().enabled = false;
                     hit.collider.GetComponent<CircleCollider2D>().enabled = false;
+                    Transform filhonpc2 = hit.collider.transform.GetChild(0);
+                    Destroy(filhonpc2.gameObject);
                     Destroy(hit.collider.gameObject, 1);
                 }
             }

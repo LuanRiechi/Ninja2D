@@ -61,23 +61,28 @@ public class scriptNpc2 : MonoBehaviour
     public void colisorNpc()
     {
         RaycastHit2D hit;
-        hit = Physics2D.Raycast(frenteNpc.transform.position, frenteNpc.transform.right, 0.1f, mascara);
 
-        if (hit.collider != null)
+        if (frenteNpc != null)
         {
-            if (hit.collider.gameObject.layer == 6)
-            {
-                rotacao();
-            }
-            if (hit.collider.gameObject.layer == 8)
-            {
-                anim.SetBool("atacando", true);
-                scriptPc.morrendo = true;
-                rbd.velocity = new Vector2(0, 0);
-                Invoke("CancelarAtacando", 0.4f);
-                Destroy(hit.collider.gameObject, 0.5f);
-            }
+            hit = Physics2D.Raycast(frenteNpc.transform.position, frenteNpc.transform.right, 0.1f, mascara);
 
+            if (hit.collider != null)
+            {
+                if (hit.collider.gameObject.layer == 6)
+                {
+                    rotacao();
+                }
+                if (hit.collider.gameObject.layer == 8)
+                {
+                    anim.SetBool("atacando", true);
+                    scriptPc.morrendo = true;
+                    rbd.velocity = new Vector2(0, 0);
+                    Invoke("CancelarAtacando", 0.4f);
+                    Destroy(hit.collider.gameObject, 0.5f);
+                }
+
+            }
         }
+
     }
 }
